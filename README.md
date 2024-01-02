@@ -1,4 +1,6 @@
-# ErrorOr Extensions
+# ErrorOr.Extensions
+
+[![.NET](https://github.com/apfohl/ErrorOrExtensions/actions/workflows/dotnet.yml/badge.svg)](https://github.com/apfohl/ErrorOrExtensions/actions/workflows/dotnet.yml) [![Release](https://github.com/apfohl/ErrorOrExtensions/actions/workflows/release.yml/badge.svg)](https://github.com/apfohl/ErrorOrExtensions/actions/workflows/release.yml) [![codecov](https://codecov.io/gh/apfohl/ErrorOrExtensions/graph/badge.svg?token=GFOVG506X9)](https://codecov.io/gh/apfohl/ErrorOrExtensions) [![Nuget](https://img.shields.io/nuget/v/ErrorOr.Extensions)](https://www.nuget.org/packages/ErrorOr.Extensions/)
 
 An extension library for [ErrorOr](https://github.com/amantinband/error-or) by
 [Amichai Mantinband](https://github.com/amantinband).
