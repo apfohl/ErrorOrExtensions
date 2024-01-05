@@ -11,6 +11,6 @@ public static class ErrorOrLinqExtensions
         if (collection == null) throw new ArgumentNullException(nameof(collection));
         if (selector == null) throw new ArgumentNullException(nameof(selector));
 
-        return errorOr.SelectMany(e => collection(e).Select(result => selector(e, result)));
+        return errorOr.Then(e => collection(e).Select(result => selector(e, result)));
     }
 }

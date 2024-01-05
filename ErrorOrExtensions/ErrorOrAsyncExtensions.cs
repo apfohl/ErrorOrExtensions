@@ -20,27 +20,4 @@ public static class ErrorOrAsyncExtensions
         this Task<ErrorOr<T>> errorOrTask,
         Func<T, Task<TResult>> mapping
     ) => await (await errorOrTask.ConfigureAwait(false)).Select(mapping);
-
-    public static Task<ErrorOr<TResult>> SelectMany<T, TResult>(
-        this ErrorOr<T> errorOr,
-        Func<T, Task<ErrorOr<TResult>>> mapping
-    )
-    {
-        if (mapping == null) throw new ArgumentNullException(nameof(mapping));
-
-        return errorOr.MatchAsync(
-            async value => await mapping(value).ConfigureAwait(false),
-            list => Task.FromResult(ErrorOr<TResult>.From(list))
-        );
-    }
-
-    public static async Task<ErrorOr<TResult>> SelectMany<T, TResult>(
-        this Task<ErrorOr<T>> errorOrTask,
-        Func<T, ErrorOr<TResult>> mapping
-    ) => (await errorOrTask.ConfigureAwait(false)).SelectMany(mapping);
-
-    public static async Task<ErrorOr<TResult>> SelectMany<T, TResult>(
-        this Task<ErrorOr<T>> errorOrTask,
-        Func<T, Task<ErrorOr<TResult>>> mapping
-    ) => await (await errorOrTask.ConfigureAwait(false)).SelectMany(mapping);
 }

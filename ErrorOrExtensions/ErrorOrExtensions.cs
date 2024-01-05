@@ -11,14 +11,4 @@ public static class ErrorOrExtensions
             ErrorOr<TResult>.From
         );
     }
-
-    public static ErrorOr<TResult> SelectMany<T, TResult>(this ErrorOr<T> errorOr, Func<T, ErrorOr<TResult>> mapping)
-    {
-        if (mapping == null) throw new ArgumentNullException(nameof(mapping));
-
-        return errorOr.Match(
-            mapping,
-            ErrorOr<TResult>.From
-        );
-    }
 }

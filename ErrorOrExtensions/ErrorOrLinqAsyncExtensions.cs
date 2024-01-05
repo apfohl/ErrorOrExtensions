@@ -10,6 +10,6 @@ public static class ErrorOrLinqAsyncExtensions
         if (collectionTask == null) throw new ArgumentNullException(nameof(collectionTask));
         if (selector == null) throw new ArgumentNullException(nameof(selector));
 
-        return errorOrTask.SelectMany(e => collectionTask(e).Select(result => selector(e, result)));
+        return errorOrTask.ThenAsync(e => collectionTask(e).Select(result => selector(e, result)));
     }
 }
