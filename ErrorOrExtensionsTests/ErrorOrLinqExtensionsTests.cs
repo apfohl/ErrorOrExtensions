@@ -8,6 +8,12 @@ namespace ErrorOrExtensionsTests;
 public static class ErrorOrLinqExtensionsTests
 {
     [Test]
+    public static void Select_with_null_mapping_throws_exception() =>
+        Assert.Throws<ArgumentNullException>(
+            () => ErrorOrFactory.From("Test").Select(((Func<string, string>)null)!)
+        );
+
+    [Test]
     public static void Select_from_erroror_with_value_returns_erroror_with_value()
     {
         const string input = "Test";

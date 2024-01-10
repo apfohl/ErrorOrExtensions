@@ -2,64 +2,19 @@
 
 [![.NET](https://github.com/apfohl/ErrorOrExtensions/actions/workflows/dotnet.yml/badge.svg)](https://github.com/apfohl/ErrorOrExtensions/actions/workflows/dotnet.yml) [![Release](https://github.com/apfohl/ErrorOrExtensions/actions/workflows/release.yml/badge.svg)](https://github.com/apfohl/ErrorOrExtensions/actions/workflows/release.yml) [![codecov](https://codecov.io/gh/apfohl/ErrorOrExtensions/graph/badge.svg?token=GFOVG506X9)](https://codecov.io/gh/apfohl/ErrorOrExtensions) [![Nuget](https://img.shields.io/nuget/v/ErrorOr.Extensions)](https://www.nuget.org/packages/ErrorOr.Extensions/)
 
-An extension library for [ErrorOr](https://github.com/amantinband/error-or) by
-[Amichai Mantinband](https://github.com/amantinband).
+An extension library for [ErrorOr](https://github.com/amantinband/error-or) by [Amichai Mantinband](https://github.com/amantinband).
 
 ## Features
 
 This library extends the [ErrorOr](https://github.com/amantinband/error-or) library with useful features to allow for
 some specific workflows, for creating meaningful error handling in your applications.
 
-### Select and SelectMany
-
-An instance of an `ErrorOr<T>` can be seen as a list containing a single element or none. With that in mind it would be
-useful you have the ability to map an `ErrorOr<T>` to a new type/value. This library provides two extensions to allow
-for this: `Select` and `SelectMany`.
-
-The method signatures look basically the same as for `IEnumarable<T>`:
-
-```csharp
-ErrorOr<TResult> Select<T, TResult>(this ErrorOr<T> errorOr, Func<T, TResult> mapping)
-
-ErrorOr<TResult> SelectMany<T, TResult>(this ErrorOr<T> errorOr, Func<T, ErrorOr<TResult>> mapping)
-```
-
-These methods allow for changing the value inside an `ErrorOr<T>` if it is successful, but keep the errors intact if it
-is erroneous.
-
-Example:
-
-```csharp
-ErrorOr<string> errorOr = ErrorOrFactory.From(42).Select(value => value.ToString());
-
-ErrorOr<string> errorOr = ErrorOrFactory.From(42).SelectMany(value => Mapping(value));
-ErrorOr<string> Mapping(int value) => ErrorOrFactory.From(value.ToString());
-```
-
-### Async
-
-Many APIs work asynchronous with `Task<T>` as return type. When using such APIs that return `Task<ErrorOr<T>>` it is
-useful to be able to use `Select` and `SelectMany` on them as well without having to strip the `Task<T>` beforehand.
-
-This library has you covered. Both, `Select` and `SelectMany` are provided in three variants:
-
-```csharp
-Task<ErrorOr<TResult>> Select<T, TResult>(this ErrorOr<T> errorOr, Func<T, Task<TResult>> mapping)
-Task<ErrorOr<TResult>> Select<T, TResult>(this Task<ErrorOr<T>> errorOrTask, Func<T, TResult> mapping)
-Task<ErrorOr<TResult>> Select<T, TResult>(this Task<ErrorOr<T>> errorOrTask, Func<T, Task<TResult>> mapping)
-Task<ErrorOr<TResult>> SelectMany<T, TResult>(this ErrorOr<T> errorOr, Func<T, Task<ErrorOr<TResult>>> mapping)
-Task<ErrorOr<TResult>> SelectMany<T, TResult>(this Task<ErrorOr<T>> errorOrTask, Func<T, ErrorOr<TResult>> mapping)
-Task<ErrorOr<TResult>> SelectMany<T, TResult>(this Task<ErrorOr<T>> errorOrTask, Func<T, Task<ErrorOr<TResult>>> mapping)
-```
-
-Every use case should be covered.
-
 ### LINQ and LINQ async
 
 This library provides LINQ extensions for `ErrorOr`. This enables a very clean approach of binding multiple `ErrorOr`
 generating function together. You can write them with the usual `from x in y select x` syntax you know and love from
-LINQ. If an error occurs along the way, processing the chain is interrupted and the collected errors are passed to the
-resulting instance of `ErrorOr<T>`.
+LINQ. If an error occurs along the way, processing of the chain is interrupted and the collected errors are passed to
+the resulting instance of `ErrorOr<T>`.
 
 Example:
 
